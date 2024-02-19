@@ -4,23 +4,21 @@
  */
 
 function solution(numbers, target) {
-  let answer = 0;
-  const length = numbers.length;
-
-  function dfs(count, sum) {
-    if (count === length) {
-      if (target === sum) {
-        answer++;
-      }
-      return;
-    }
-
-    dfs(count + 1, sum + numbers[count]);
-    dfs(count + 1, sum - numbers[count]);
+  let node_num = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    node_num += 2 ** i;
   }
 
-  dfs(0, 0);
+  let graph = [...new Array(node_num + 1)].map(() => []);
+  for (let i = 0; i < node_num - 1; i++) {
+    const start = Number(input[i + 1].split(" ")[0]);
+    const end = Number(input[i + 1].split(" ")[1]);
+    graph[start].push(end);
+    graph[end].push(start);
+  }
+  console.log(node_num);
+  let answer = 0;
   return answer;
 }
 
-console.log(solution([4, 1, 2, 1], 2));
+solution([1, 1, 1], 3);
