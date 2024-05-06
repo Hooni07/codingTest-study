@@ -3,12 +3,14 @@
  * 2024.05.07.월
  */
 
-function solution(arr) {
+function solution(array, commands) {
   let answer = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] !== arr[i + 1]) {
-      answer.push(arr[i]);
-    }
+  for (var i = 0; i < commands.length; i++) {
+    let select = array.slice(commands[i][0] - 1, commands[i][1]);
+
+    select.sort((a, b) => a - b);
+
+    answer.push(select[commands[i][2] - 1]);
   }
   return answer;
 }
