@@ -1,34 +1,48 @@
 /*
- * 프로그래머스 [완주하지 못한 선수] -> 공통 문제
- * 2024.05.09.목
+ * 프로그래머스 [베스트엘범] -> 공통 문제
+ * 2024.05.13.월
  */
 
-function solution(participant, completion) {
-  participant.sort();
-  completion.sort();
+function solution(genres, plays) {
+  const answer = [];
 
-  for(let i = 0; i < participant.length; i++) {
-    if(participant[i] !== completion[i]) {
-      return participant[i];
+  // 노래를 구분하기 위한 배열을 만들어 준다.
+  let songs = genres.map((genre, idx) => {
+    return {
+      no: idx,
+      genre: genre,
+      play: plays[idx],
+    };
+  });
+
+  // 장르별 재생횟수를 위한 새로운 배열을 만들어 준다.
+  let genrePlayCnt = [];
+  songs.forEach((song) => {
+    let thisGenre = genrePlayCnt.find((a) => a.genre === song.genre);
+    if (thisGenre) {
+      thisGenre.play += song.play;
+    } else {
+      genrePlayCnt.push({
+        genre: song.genre,
+        play: song.play,
+      });
     }
-  }
+  });
+
+  // 재생횟수가 많은 순으로 노래를 정렬한다.
+  songs.sort((a, b) => b.play - a.play);
+  // 재생횟수가 많은 순으로 장르를 정렬한다.
+  genrePlayCnt.sort((a, b) => b.play - a.play);
+
+  // 장르를 기준으로 배열을 돌면서 노래를 두 개 씩 넣는다.
+  genrePlayCnt.forEach((a) => {
+    let len = 0;
+    songs.forEach((song) => {
+      if (a.genre === song.genre && len < 2) {
+        len++;
+        answer.push(song.no);
+      }
+    });
+  });
+  return answer;
 }
-
-function solution2(participant, completion) {
-  const map = new Map();
-
-  for(let i = 0; i < participant.length; i++) {
-    let a = participant[i],
-      b = completion[i];
-
-    map.set(a, (map.get(a) || 0) + 1);
-    map.set(b, (map.get(b) || 0) - 1);
-
-  }
-
-  for(let [k, v] of map) {
-    if(v > 0) return k;
-  }
-}
-
-console.log(solution(["leo", "kiki", "eden"], ["eden", "kiki"]));
