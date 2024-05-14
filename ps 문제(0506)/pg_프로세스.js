@@ -5,16 +5,16 @@
 
 function solution(priorities, location) {
   let answer = 0;
-  let max_value = Math.max(...priorities);
+  let priMax = Math.max(...priorities);
   let arr = [];
   for (let i = 0; i < priorities.length; i++) {
     arr.push(i);
   }
 
   while (priorities.length > 0) {
-    max_value = Math.max(...priorities);
+    priMax = Math.max(...priorities);
 
-    if (priorities[0] < max_value) {
+    if (priorities[0] < priMax) {
       priorities.push(priorities.shift());
       arr.push(arr.shift());
     } else {
